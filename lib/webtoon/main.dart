@@ -1,3 +1,4 @@
+import 'package:edu_flutter_dart/webtoon/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,9 +13,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Webtoon App',
-      home: Container(),
+      home: HomeScreen(),
     );
   }
 }
