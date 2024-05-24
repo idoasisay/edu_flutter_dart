@@ -1,5 +1,6 @@
 import 'package:edu_flutter_dart/models/webtoon_model.dart';
 import 'package:edu_flutter_dart/services/api_service.dart';
+import 'package:edu_flutter_dart/widgets/webtoon_widget.dart';
 import 'package:flutter/material.dart';
 
 // setState는 많이 쓰지 않는 게 좋다 (많이 쓰이지 않는다)
@@ -63,42 +64,10 @@ class HomeScreen extends StatelessWidget {
       },
       itemBuilder: (context, index) {
         var webtoon = snapshot.data![index];
-        return Column(
-          children: [
-            Container(
-              clipBehavior: Clip.hardEdge,
-              decoration:
-                  // clipBehavior 때문에 보더가 먹히지 않는다.
-                  BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                    // 그림자 위쪽이 잘려 있음
-                    // List에 Padding이 없어서 그렇다
-                    BoxShadow(
-                        blurRadius: 7,
-                        offset: Offset(0, 0),
-                        color: Color.fromARGB(123, 0, 0, 0))
-                  ]),
-              width: 250,
-              child: Image.network(
-                webtoon.thumb,
-                headers: const {
-                  "User-Agent":
-                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              webtoon.title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        return Webtoon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
       scrollDirection: Axis.horizontal,
