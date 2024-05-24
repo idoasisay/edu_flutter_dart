@@ -34,14 +34,15 @@ class HomeScreen extends StatelessWidget {
           // context : buildcontext
           // snapshot : know the statue of Future
           if (snapshot.hasData) {
-            // 대량의 항목을 나열할 땐 ListView Widget을 사용하는 게 좋다
-            // Column, Row X
-            // 자동 스크롤뷰 탑재
-            return ListView(
-              children: [
-                // snapshot.data가 null이 아님을 알려주기 위해 뒤에 !를 붙임
-                for (var webtoon in snapshot.data!) Text(webtoon.title)
-              ],
+            /// 사용자가 볼 때만 호출이 된다. (메모리 효율성)
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                print(index);
+                var webtoon = snapshot.data![index];
+                return Text(webtoon.title);
+              },
+              scrollDirection: Axis.horizontal,
+              itemCount: snapshot.data!.length,
             );
           }
           return const Center(child: CircularProgressIndicator());
