@@ -1,6 +1,9 @@
+import 'package:edu_flutter_dart/models/webtoon_detail_model.dart';
+import 'package:edu_flutter_dart/models/webtoon_episode_model.dart';
+import 'package:edu_flutter_dart/services/api_service.dart';
 import 'package:flutter/material.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
 
   const DetailScreen({
@@ -11,6 +14,22 @@ class DetailScreen extends StatelessWidget {
   });
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+// 받아온 data를 재init 할 때 이런 식으로 사용할 수 있다.
+class _DetailScreenState extends State<DetailScreen> {
+  late Future<WebtoonDetailModel> webtoon;
+  late Future<List<WebtoonEpisodeModel>> episode;
+
+  @override
+  void initState() {
+    super.initState();
+    webtoon = ApiService.getToonById(widget.id);
+    episode = ApiService.getLatestEpisodesById(widget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +38,7 @@ class DetailScreen extends StatelessWidget {
         foregroundColor: Colors.white,
         title: Center(
           child: Text(
-            title,
+            widget.title,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w900,
@@ -34,7 +53,7 @@ class DetailScreen extends StatelessWidget {
           ),
           Center(
             child: Hero(
-              tag: id,
+              tag: widget.id,
               child: Container(
                 clipBehavior: Clip.hardEdge,
                 decoration:
@@ -51,7 +70,7 @@ class DetailScreen extends StatelessWidget {
                     ]),
                 width: 250,
                 child: Image.network(
-                  thumb,
+                  widget.thumb,
                   headers: const {
                     "User-Agent":
                         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
